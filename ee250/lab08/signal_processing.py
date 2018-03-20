@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import time
+#import numpy as np #I would use the numpy library because of its useful fncts
 
 # MQTT variables
 broker_hostname = "eclipse.usc.edu"
@@ -13,6 +14,11 @@ ultrasonic_ranger2_topic = "ultrasonic_ranger2"
 MAX_LIST_LENGTH = 100
 ranger1_dist = []
 ranger2_dist = []
+
+Default_Distance = 300 # This will be the distance present when no person 
+# is present (I think these rangeFinders have a default max of 300, ~10ft)
+
+
 
 def ranger1_callback(client, userdata, msg):
     global ranger1_dist
@@ -60,5 +66,23 @@ if __name__ == '__main__':
         
         print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
             str(ranger2_dist[-1:])) 
-        
+
+        #Find the Moving Average
+
+        Avg_1 = np.mean(ranger1_dist[:])
+        Avg_2 = np.mean(ranger2_dist[:])
+
+        # if the average is less than or greater than a threshold hold
+        #start doing some stuff
+
+        if (Avg_1 < Default_Distance - 10) or (Avg_1 < Default_Distance +10):
+            #Now that we have the current average lets start looking at each sensor 
+            time.sleep(0.3)
+            fresh_dat1 = ranger1_dist[:]
+            fresh_dat2 = ranger2_dist[:]
+
+
+
         time.sleep(0.2)
+
+
