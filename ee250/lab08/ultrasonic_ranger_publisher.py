@@ -7,7 +7,7 @@ ranger.
 """
 
 # set to 1 to run test mode (i.e. running without an raspberry pi)
-TEST = 0
+TEST = 1
 
 import paho.mqtt.client as mqtt
 import argparse
@@ -17,6 +17,18 @@ import sys
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are able to successfully `import grovepi`
 sys.path.append('../../Software/Python/')
+
+
+
+
+#Lets put some of the Http Client in this (includes)
+
+import requests
+import json
+from datetime import datetime
+import time
+
+
 
 if TEST:
     print("Test Mode")
@@ -39,7 +51,27 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
+
+
+
 if __name__ == '__main__':
+
+    #HTTP Client Json Structure
+    hdr = {
+        'Content-Type': 'application/json',
+        'Authorization': None #not using HTTP secure
+    }
+
+    # The payload of our message starts as a simple dictionary. Before sending
+    # the HTTP message, we will format this into a json object
+    payload = {
+        'time': str(datetime.now()),
+        'event': "Moving Right"
+    }
+
+
+
+
     if len(sys.argv) != 3:
         print("expected two arguments")
         print("Usage example: `python3 ultrasonic_ranger_publisher.py -u 2`")
@@ -66,6 +98,14 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
+        response = requests.post("http://0.0.0.0:5001/post-event", headers = hdr,
+                                 data = json.dumps(payload))
+
+        # Print the json object from the HTTP response
+        print(response.json())
+
+        time.sleep(2)
+
         if TEST:
             distance = (distance + 1) % 10
             time.sleep(0.2)
@@ -76,3 +116,5 @@ if __name__ == '__main__':
 
         print("topic: " + topic + ", distance (cm): " + str(distance))
         client.publish(topic, distance)
+
+        
