@@ -27,7 +27,7 @@ if __name__ == '__main__':
         # Send an HTTP POST message and block until a response is given.
         # Note: requests() is NOT the same thing as request() under the flask 
         # library.
-        response = requests.post("http://0.0.0.0:5000/post-event", headers = hdr,
+        response = requests.post("http://0.0.0.0:5002/post-event", headers = hdr,
                                  data = json.dumps(payload))
 
         # Print the json object from the HTTP response

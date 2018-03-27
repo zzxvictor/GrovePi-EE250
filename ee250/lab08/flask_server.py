@@ -69,7 +69,7 @@ if __name__ == '__main__':
     """Run the flask web application on '0.0.0.0'. The default port is 5000. 
     Flask is not multi-threaded by nature and will hang when many HTTP messages
     are received, so we also ask flask to enable threading."""
-    app.run(threaded = True, host = '0.0.0.0', port = 5001) 
+    app.run(threaded = True, host = '0.0.0.0', port = 5002) 
 
     """Note: Because flask is binding to 0.0.0.0, you will not be able to 
     connect to this web server from outside your local machine. We do not need

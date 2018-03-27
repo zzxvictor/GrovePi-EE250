@@ -98,7 +98,7 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
-        response = requests.post("http://0.0.0.0:5001/post-event", headers = hdr,
+        response = requests.post("http://0.0.0.0:5002/post-event", headers = hdr,
                                  data = json.dumps(payload))
 
         # Print the json object from the HTTP response
