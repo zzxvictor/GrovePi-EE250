@@ -18,17 +18,17 @@ if __name__ == '__main__':
 
     # The payload of our message starts as a simple dictionary. Before sending
     # the HTTP message, we will format this into a json object
-    payload = {
-        'time': str(datetime.now()),
-        'event': "Moving Right"
-    }
+
 
     while True:
         # Send an HTTP POST message and block until a response is given.
         # Note: requests() is NOT the same thing as request() under the flask 
         # library.
-        response = requests.post("http://0.0.0.0:5000/post-event", headers = hdr,
-                                 data = json.dumps(payload))
+        payload = {
+            'time': str(datetime.now()),
+            'event': "Moving Right"
+        }
+        response = requests.post("http://0.0.0.0:5000/post-event", headers = hdr,data = json.dumps(payload))
 
         # Print the json object from the HTTP response
         print(response.json())

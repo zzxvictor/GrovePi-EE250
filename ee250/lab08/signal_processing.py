@@ -11,20 +11,25 @@ ultrasonic_ranger2_topic = "ultrasonic_ranger2"
 # value of MAX_LIST_LENGTH depending on how many distance samples you would 
 # like to keep at any point in time.
 MAX_LIST_LENGTH = 100
+WINDOW = 10
 ranger1_dist = []
 ranger2_dist = []
-
+ranger1_filter = [0]*10
+ranger2_filter = [0]*10
+N = 3
 def ranger1_callback(client, userdata, msg):
     global ranger1_dist
     ranger1_dist.append(int(msg.payload))
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
+    movingAverage()
 
 def ranger2_callback(client, userdata, msg):
     global ranger2_dist
     ranger2_dist.append(int(msg.payload))
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger2_dist = ranger2_dist[-MAX_LIST_LENGTH:]
+    movingAverage()
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -39,6 +44,38 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg): 
     print(msg.topic + " " + str(msg.payload))
 
+def isMoving():
+    global ranger1_filter
+    global ranger2_filter
+
+    #if the person is moving left
+    #if the person is moving right
+    #if the person is standing still
+    if ranger1_filter[-1] == ranger1_filter[-2] and ranger1_filter[-2] == ranger1_filter[-3]:
+        print ("still")
+    elif ranger1_filter[-1] > ranger1_filter[-2] and ranger1_filter[-2] > ranger1_filter[-3]:
+        print ("moving left")
+    elif ranger1_filter[-1] < ranger1_filter[-2] and ranger1_filter[-2] < ranger1_filter[-3]:
+        print ("moving right")
+
+def movingAverage(input):
+    global ranger1_filter
+    global ranger2_filter
+    global ranger1_dist
+    global ranger2_dist
+    #get a window 
+    if input == 1:
+    	ranger1_filter = ranger1_dist[-WINDOW]
+    	ranger1_filter[-1] = sum(ranger1_filter)/len(ranger1_filter)
+    	print (ranger1_filter)
+    else:
+		ranger2_filter = ranger2_dist[-WINDOW]
+		ranger2_filter[-1] = sum(ranger2_filter)/len(ranger2_filter)
+		print (ranger2_filter)
+
+
+def detectLocation():
+	
 if __name__ == '__main__':
     # Connect to broker and start loop    
     client = mqtt.Client()
@@ -46,7 +83,7 @@ if __name__ == '__main__':
     client.on_message = on_message
     client.connect(broker_hostname, broker_port, 60)
     client.loop_start()
-
+    i = 0
     while True:
         """ You have two lists, ranger1_dist and ranger2_dist, which hold a window
         of the past MAX_LIST_LENGTH samples published by ultrasonic ranger 1
@@ -57,8 +94,11 @@ if __name__ == '__main__':
         ~125cm. """
         
         # TODO: detect movement and/or position
-        
-        print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
-            str(ranger2_dist[-1:])) 
-        
+        i += 1
+        #print("ranger1: " + str(ranger1_filter[-1:]) + ", ranger2: " + 
+        #    str(ranger1_filter[-1:])) 
+        #print (len(ranger2_filter))
+        if i>5:
+            isMoving()
+
         time.sleep(0.2)
