@@ -59,5 +59,5 @@ if __name__ == '__main__':
         #read humidity sensor
         #publish it 
         #print (t.getTemperature())
-        client.publish("anrg-pi1/temperature", "hello")
+        client.publish("anrg-pi1/humidity", "hello")
         time.sleep(1)
