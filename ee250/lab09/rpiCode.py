@@ -45,7 +45,7 @@ def on_message(client, userdata, msg):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
     grove_rgb_lcd.setRGB(0,64,128)
-    t= grove_i2c_temp_hum_mini.th08()
+    t= grove_i2c_temp_hum_mini.th02()
     client = mqtt.Client()
     client.on_message = on_message
     client.on_connect = on_connect
