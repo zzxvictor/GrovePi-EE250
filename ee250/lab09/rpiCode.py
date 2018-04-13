@@ -58,5 +58,6 @@ if __name__ == '__main__':
 
         #read humidity sensor
         #publish it 
+        print (t.getTemperature())
 
         time.sleep(1)
