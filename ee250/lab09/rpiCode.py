@@ -36,8 +36,8 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi1/led", ledCallBack)
     client.subscribe("anrg-pi1/lcd")
     client.message_callback_add("anrg-pi1/lcd", lcdCallBack)
-    client.subscribe("anrg-pi1/temperature")
-    client.subscribe("anrg-pi1/humidity")
+    #client.subscribe("anrg-pi1/temperature")
+   # client.subscribe("anrg-pi1/humidity")
 
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload))
