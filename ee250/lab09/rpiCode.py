@@ -36,7 +36,7 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi1/led", ledCallBack)
     client.subscribe("anrg-pi1/lcd")
     client.message_callback_add("anrg-pi1/lcd", lcdCallBack)
-    client.subscribe("anrg-pi1/tempreture")
+    client.subscribe("anrg-pi1/temperature")
     client.subscribe("anrg-pi1/humidity")
 
 def on_message(client, userdata, msg):
@@ -59,5 +59,5 @@ if __name__ == '__main__':
         #read humidity sensor
         #publish it 
         #print (t.getTemperature())
-        client.publish("anrg-pi1/tempreture", "hello")
+        client.publish("anrg-pi1/temperature", "hello")
         time.sleep(1)
