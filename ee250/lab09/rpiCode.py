@@ -6,6 +6,8 @@ import paho.mqtt.client as mqtt
 import time
 import grovepi
 import grove_rgb_lcd 
+import grove_i2c_temp_hum_mini
+
 
 state = 0
 
@@ -20,10 +22,10 @@ def ledCallBack(client, userdata, message):
     if msg == "LED_toggle":
         if state == 1:
             grovepi.digitalWrite(led, 1)
-            state == 0
+            state = 0
         elif state == 0:
             grovepi.digitalWrite(led, 0)
-            state == 1
+            state = 1
         else:
             state = state
 
