@@ -62,6 +62,6 @@ if __name__ == '__main__':
         #print (t.getTemperature())
         [temp, hum] = grovepi.dht(dht_sensor_port,1)
         print ("temp=", temp, " hum =", hum, "%")
-        client.publish("anrg-pi1/humidity", "hum")
+        client.publish("anrg-pi1/humidity", hum)
         client.publish("anrg-pi1/temperature", temp)
         time.sleep(1)
