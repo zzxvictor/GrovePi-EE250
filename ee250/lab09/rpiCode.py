@@ -37,8 +37,8 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi1/led", ledCallBack)
     client.subscribe("anrg-pi1/lcd")
     client.message_callback_add("anrg-pi1/lcd", lcdCallBack)
-    #client.subscribe("anrg-pi1/temperature")
-   # client.subscribe("anrg-pi1/humidity")
+    client.subscribe("anrg-pi1/temperature")
+    client.subscribe("anrg-pi1/humidity")
 
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload))
@@ -62,5 +62,6 @@ if __name__ == '__main__':
         #print (t.getTemperature())
         [temp, hum] = grovepi.dht(dht_sensor_port,1)
         print ("temp=", temp, " hum =", hum, "%")
-        client.publish("anrg-pi1/humidity", "hello")
+        client.publish("anrg-pi1/humidity", "hum")
+        client.publish("anrg-pi1/temperature", temp)
         time.sleep(1)
