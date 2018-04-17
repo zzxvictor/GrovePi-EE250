@@ -5,7 +5,7 @@ import sys
 import paho.mqtt.client as mqtt
 import time
 from grovepi import *
-from grove_rgb_lcd import *
+import grove_rgb_lcd 
 #import grove_i2c_temp_hum_mini
 
 dht_sensor_port = 7
