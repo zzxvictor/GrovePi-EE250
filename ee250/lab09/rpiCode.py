@@ -4,10 +4,11 @@ Run rpi_pub_and_sub.py on your Raspberry Pi."""
 import sys
 import paho.mqtt.client as mqtt
 import time
-import grovepi
-import grove_rgb_lcd 
+from grovepi import *
+from grove_rgb_lcd import *
 #import grove_i2c_temp_hum_mini
 
+dht_sensor_port = 7
 
 state = 0
 
