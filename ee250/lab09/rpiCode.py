@@ -8,7 +8,7 @@ import grovepi
 import grove_rgb_lcd 
 #import grove_i2c_temp_hum_mini
 
-dht_sensor_port = 7
+dht_sensor_port = 8
 
 state = 0
 
